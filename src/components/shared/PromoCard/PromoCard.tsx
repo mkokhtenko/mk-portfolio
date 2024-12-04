@@ -4,7 +4,12 @@ import styled from "styled-components";
 interface PromoCardProps {
   link?: string;
   title: string;
-  bgImage: string;
+  images?: {
+    default: string;
+    webp?: string;
+  };
+  bgColor?: string;
+  pattern?: string;
 }
 
 const CardContainer = styled.div`
@@ -13,17 +18,40 @@ const CardContainer = styled.div`
   overflow: hidden;
 `;
 
-const Background = styled.div<{ bgImage: string }>`
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  -webkit-transition: all 5s ease;
-  transition: all 5s ease;
-  z-index: 1;
-  height: 100%;
+const BackgroundPicture = styled.picture`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  background-color: grey;
-  background-image: url(${(props) => props.bgImage});
+  height: 100%;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const Background = styled.div<{ bgColor?: string; pattern?: string }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => props.bgColor || "grey"};
+  ${(props) =>
+    props.pattern === "wavy" &&
+    `
+      background-color: #e5e5f7;
+      opacity: 0.6;
+      background-image: repeating-radial-gradient(
+          circle at 0 0,
+          transparent 0,
+          #e5e5f7 40px
+        ),
+        repeating-linear-gradient(#00000055, #000000);
+    `}
 `;
 
 const Link = styled.a`
@@ -38,10 +66,6 @@ const Link = styled.a`
   z-index: 2;
   cursor: pointer;
   text-decoration: underline;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
 `;
 
 const Text = styled.span`
@@ -56,10 +80,23 @@ const Text = styled.span`
   z-index: 2;
 `;
 
-export const PromoCard: React.FC<PromoCardProps> = ({ link, title, bgImage }) => {
+export const PromoCard: React.FC<PromoCardProps> = ({
+  link,
+  title,
+  images,
+  bgColor,
+  pattern,
+}) => {
   return (
     <CardContainer>
-      <Background bgImage={bgImage} />
+      {images ? (
+        <BackgroundPicture>
+          {images.webp && <source srcSet={images.webp} type="image/webp" />}
+          <img src={images.default} alt={title} />
+        </BackgroundPicture>
+      ) : (
+        <Background bgColor={bgColor} pattern={pattern} />
+      )}
       {link ? <Link href={link}>{title}</Link> : <Text>{title}</Text>}
     </CardContainer>
   );

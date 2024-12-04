@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Logo } from "../Logo/Logo";
 
 const FooterContainer = styled.footer`
+  margin-top: 5vw;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -14,43 +15,42 @@ const Nav = styled.ul`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
   list-style: none;
 `;
 
 const NavItem = styled.li``;
 
 const NavLink = styled.a`
+  font-family: FuturaMaxiCGBold;
+  font-size: 16px;
+  color: ${(props) => props.theme.text};
   text-decoration: none;
-  color: #333;
-  font-size: 1rem;
-  &:hover {
-    text-decoration: underline;
-  }
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 `;
 
-const navLinks = [
-  { text: "home", href: "index.html" },
-  { text: "work", href: "work.html" },
-  { text: "about", href: "about.html" },
-];
+interface FooterProps {
+  navLinks: { text: string; href: string }[];
+}
 
-const socialLinks = [
-  {
-    text: "linkedin",
-    href: "https://www.linkedin.com/in/maksim-kokhtenko-258299209/",
-  },
-  { text: "github", href: "https://github.com/mkokhtenko" },
-  { text: "codepen", href: "https://codepen.io/MaksimKokhtenko" },
-  { text: "contact", href: "#" },
-];
+export const Footer: React.FC<FooterProps> = ({ navLinks }) => {
+  const socialLinks = [
+    {
+      text: "linkedin",
+      href: "https://www.linkedin.com/in/maksim-kokhtenko-258299209/",
+    },
+    { text: "github", href: "https://github.com/mkokhtenko" },
+    { text: "codepen", href: "https://codepen.io/MaksimKokhtenko" },
+    { text: "contact", href: "#" },
+  ];
 
-const contactLinks = [
-  { text: "maxkohtenko@gmail.com", href: "mailto:maxkohtenko@gmail.com" },
-  { text: "telegram", href: "https://t.me/mmkdev" },
-];
+  const contactLinks = [
+    { text: "maxkohtenko@gmail.com", href: "mailto:maxkohtenko@gmail.com" },
+    { text: "telegram", href: "https://t.me/mmkdev" },
+  ];
 
-export const Footer: React.FC = () => {
   return (
     <FooterContainer>
       <Logo />
