@@ -1,10 +1,29 @@
+import React from "react";
 import { Logo } from "../Logo/Logo";
+import { MenuButton } from "../MenuButton/MenuButton";
+import styled from "styled-components";
 
-export const Header = () => {
+const HeaderContainer = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 2px;
+  height: 10vw;
+  padding: 0 3.1vw;
+  width: 83.6vw;
+  z-index: 2;
+`;
+
+interface HeaderProps {
+  toggleMenu: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ toggleMenu }) => {
   return (
-    <header className="header">
+    <HeaderContainer>
       <Logo />
-      <span className="header__link">menu</span>
-    </header>
+      <MenuButton onClick={toggleMenu} />
+    </HeaderContainer>
   );
 };
